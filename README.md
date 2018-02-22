@@ -1,6 +1,7 @@
 # sba-tutorials-2018
 1. reference source url: https://github.com/codecentric/spring-boot-admin
 1. videos url: https://www.youtube.com/watch?v=PWd9Q8_4OFo&list=PLD9VybHH2wnZXa0uunc8GjFwcdZI1-2tW&via=tb
+1. sAMPLE: https://github.com/eugenp/tutorials/tree/master/spring-boot-admin
 ## Getting Started
 
 [A quick guide](http://codecentric.github.io/spring-boot-admin/1.5.7/#getting-started) to get started can be found in our docs.
