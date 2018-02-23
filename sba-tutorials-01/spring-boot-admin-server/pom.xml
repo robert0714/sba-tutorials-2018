@@ -5,7 +5,7 @@
 
     <artifactId>spring-boot-admin-server</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
 
     <name>spring-boot-admin-server</name>
     <description>Spring Boot Admin Server</description>
@@ -78,17 +78,35 @@
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
-
     <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
-
-
+	<plugins>
+	   <plugin>
+		<groupId>org.springframework.boot</groupId>
+                  <artifactId>spring-boot-maven-plugin</artifactId>
+		<configuration>
+		  <mainClass>com.baeldung.springbootadminserver.SpringBootAdminServerApplication</mainClass>
+		  <executable>true</executable>
+		</configuration>
+		<executions>
+		   <execution>
+		     <goals>
+			<goal>repackage</goal>
+		     </goals>
+		     <configuration>
+			<classifier>exec</classifier>
+		     </configuration>
+		   </execution>
+		</executions>
+	  </plugin>
+	  <plugin>
+		<groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-war-plugin</artifactId>
+		<version>3.2.0</version>
+		<configuration>
+		 	<failOnMissingWebXml>false</failOnMissingWebXml>
+		</configuration>
+	   </plugin>
+	</plugins>
+      </build>
 </project>
