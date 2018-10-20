@@ -1,0 +1,84 @@
+version: '3'
+services:
+  zipkin-server:
+    image: openzipkin/zipkin
+    container_name: zipkin
+    # Environment settings are defined here https://github.com/openzipkin/zipkin/tree/1.19.0/zipkin-server#environment-variables
+    network_mode:  "host"
+    environment:
+      - STORAGE_TYPE=mem
+      - TZ=Asia/Taipei      
+      # Uncomment to disable scribe
+      # - SCRIBE_ENABLED=false
+      # Uncomment to enable self-tracing
+      # - SELF_TRACING_ENABLED=true
+      # Uncomment to enable debug logging
+      # - JAVA_OPTS=-Dlogging.level.zipkin=DEBUG
+    ports:
+      # Port used for the Zipkin UI and HTTP Api
+      - 9411:9411
+  sba2:
+    image: robert0714/spring-boot-admin-server-2:dev
+    container_name: sba2
+    network_mode:  "host"
+    environment:
+      - TZ=Asia/Taipei
+      - server.port=8741
+#      - eureka.instance.preferIpAddress=true
+#      - eureka.client.enabled=true
+#      - eureka.client.serviceUrl.defaultZone=http:/localhost:8761/eureka  
+      
+  eurekasvr:
+    image: robert0714/eurekasvr:dev
+    container_name: eurekasvr
+    network_mode:  "host"
+    environment:
+      - TZ=Asia/Taipei
+  greeting:
+    image: robert0714/user-greeting-service:dev
+    container_name: user-greeting-service
+    network_mode:  "host"
+    depends_on:
+      - "eurekasvr"
+    environment:
+      - TZ=Asia/Taipei
+      - server.port=3000
+#      - eureka.instance.preferIpAddress=true
+#      - eureka.client.enabled=true
+#      - eureka.client.serviceUrl.defaultZone=http:/localhost:8761/eureka         
+  name:
+    image: robert0714/user-name-service:dev
+    container_name: user-name-service
+    network_mode:  "host"
+    environment:
+      - TZ=Asia/Taipei     
+      - server.port=3001
+#      - eureka.instance.preferIpAddress=true
+#      - eureka.client.enabled=true
+#      - eureka.client.serviceUrl.defaultZone=http:/localhost:8761/eureka 
+    depends_on:
+      - "eurekasvr"
+  address1:
+    image: robert0714/user-address-service:dev
+    container_name: user-address-service1
+    network_mode:  "host"
+    environment:
+      - TZ=Asia/Taipei
+      - server.port=3002
+#      - eureka.instance.preferIpAddress=true
+#      - eureka.client.enabled=true
+#      - eureka.client.serviceUrl.defaultZone=http:/localhost:8761/eureka 
+    depends_on:
+      - "eurekasvr"
+  address2:
+    image: robert0714/user-address-service:dev
+    container_name: user-address-service2
+    network_mode:  "host"
+    environment:
+      - TZ=Asia/Taipei
+      - server.port=3003
+#      - eureka.instance.preferIpAddress=true
+#      - eureka.client.enabled=true
+#      - eureka.client.serviceUrl.defaultZone=http:/localhost:8761/eureka   
+    depends_on:
+      - "eurekasvr"
